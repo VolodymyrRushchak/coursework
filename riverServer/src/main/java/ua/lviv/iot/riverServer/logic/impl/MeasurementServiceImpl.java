@@ -61,6 +61,12 @@ public class MeasurementServiceImpl implements MeasurementService {
     public Measurement read(final Long id) {
         return measurements.get(id);
     }
+    
+    public List<Measurement> readAllStationsMeasurements(final Long id) {
+        return measurements.values().stream()
+                .filter(measurement ->
+                        Objects.equals(measurement.getStationId(), id)).collect(Collectors.toList());
+    }
 
     public Boolean update(final Measurement measurement, final Long id) throws IOException {
         CSVFileStorage.deleteFromFile(id, "measurement");
