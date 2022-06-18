@@ -15,14 +15,15 @@ public class Measurement {
     private String date;
     private Double waterLevel;
     private String stationName;
+    private Long stationId;
 
     @Transient
     public String getHeaders() {
-        return "id,date,waterLevel,stationName";
+        return "id,date,waterLevel,stationName,stationId";
     }
 
     public String toCSV() {
-        return id + "," + date + "," + waterLevel + "," + stationName;
+        return id + "," + date + "," + waterLevel + "," + stationName + "," + stationId;
     }
 
 }
