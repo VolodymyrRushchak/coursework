@@ -26,7 +26,7 @@ public class MeasurementServiceImpl implements MeasurementService {
             if (Files.exists(path)) {
                 try {
                     Scanner scanner = new Scanner(path);
-                    scanner.useDelimiter("[,\\n]");
+                    scanner.useDelimiter(",|(\\r\\n)");
                     scanner.nextLine();
                     while (scanner.hasNext()) {
                         Measurement measurement = new Measurement();
@@ -37,6 +37,7 @@ public class MeasurementServiceImpl implements MeasurementService {
                         measurement.setDate(scanner.next());
                         measurement.setWaterLevel(Double.valueOf(scanner.next()));
                         measurement.setStationName(scanner.next());
+                        measurement.setStationId(Long.valueOf(scanner.next()));
                         measurements.put(measurement.getId(), measurement);
                     }
                 } catch (IOException exc) {
