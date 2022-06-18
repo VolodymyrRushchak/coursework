@@ -163,10 +163,11 @@ class RiverServerApplicationTests {
         measurementService.create(measurement);
         Measurement[] measurements = measurementService.readAll().toArray(Measurement[]::new);
         Long id = measurements[measurements.length - 1].getId();
-        measurementService.update(new Measurement(null, "2022-06-17", 16.7, "Dnister"), id);
+        measurementService.update(new Measurement(null, "2022-06-17", 16.7, "Dnister", 5L), id);
         Assertions.assertEquals("2022-06-17", measurementService.read(id).getDate());
         Assertions.assertEquals(16.7, measurementService.read(id).getWaterLevel());
         Assertions.assertEquals("Dnister", measurementService.read(id).getStationName());
+        Assertions.assertEquals(5L, measurementService.read(id).getStationId());
         Assertions.assertEquals(true, measurementService.delete(id));
     }
 
