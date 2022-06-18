@@ -42,6 +42,14 @@ public class MeasurementController {
         return measurement != null
                 ? new ResponseEntity<>(measurement, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+    
+    @GetMapping("/measurementStations/{stationId}/measurements/GET")
+    public ResponseEntity<List<Measurement>> readAllStationsMeasurements(@PathVariable("stationId") final Long id) {
+        final List<Measurement> measurements = measurementService.readAllStationsMeasurements(id);
+        return measurements != null && !measurements.isEmpty()
+                ? new ResponseEntity<>(measurements, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 
     @PutMapping("/measurements/PUT/{id}")
     public ResponseEntity<?> update(@RequestBody final Measurement measurement, @PathVariable("id") final Long id) {
