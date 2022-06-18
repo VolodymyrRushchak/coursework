@@ -15,6 +15,12 @@
 /measurementStations/GET/{id}
 /measurements/GET/{id}
 
+Отримати всі станції заміру для заданої річки за id(/GET):
+/rivers/{riverId}/measurementStations/GET
+
+Отримати всі заміри для заданої станції за id(/GET):
+/measurementStations/{stationId}/measurements/GET
+
 Створити сутність заданого типу(POST):
 /rivers/POST
 /measurementStations/POST
