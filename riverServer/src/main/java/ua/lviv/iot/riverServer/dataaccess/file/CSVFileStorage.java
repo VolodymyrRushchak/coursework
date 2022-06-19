@@ -20,12 +20,12 @@ public final class CSVFileStorage {
         String path = type + "-" + LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE) + ".csv";
         if (!Files.exists(Path.of(path))) {
             try (FileWriter fileWriter = new FileWriter(path, StandardCharsets.UTF_8)) {
-                fileWriter.write(headers + "\n");
-                fileWriter.write(toCSV + "\n");
+                fileWriter.write(headers + "\r\n");
+                fileWriter.write(toCSV + "\r\n");
             }
         } else {
             try (FileWriter fileWriter = new FileWriter(path, StandardCharsets.UTF_8, true)) {
-                fileWriter.write(toCSV + "\n");
+                fileWriter.write(toCSV + "\r\n");
             }
         }
     }
