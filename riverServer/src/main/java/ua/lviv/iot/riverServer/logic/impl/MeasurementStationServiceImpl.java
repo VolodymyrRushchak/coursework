@@ -1,5 +1,6 @@
 package ua.lviv.iot.riverServer.logic.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.lviv.iot.riverServer.dataaccess.file.CSVFileStorage;
 import ua.lviv.iot.riverServer.logic.MeasurementStationService;
@@ -15,6 +16,8 @@ import java.util.*;
 @Service
 public class MeasurementStationServiceImpl implements MeasurementStationService {
 
+    @Autowired
+    private CSVFileStorage fileStorage;
     private Long measurementStationIdHolder = 0L;
     private final HashMap<Long, MeasurementStation> measurementStations = new LinkedHashMap<>();
 
@@ -48,7 +51,7 @@ public class MeasurementStationServiceImpl implements MeasurementStationService 
     public void create(final MeasurementStation measurementStation) throws IOException {
         long measurementStationId = ++measurementStationIdHolder;
         measurementStation.setId(measurementStationId);
-        CSVFileStorage.writeToFile(measurementStation.getHeaders(), measurementStation.toCSV(), "measurementStation");
+        fileStorage.writeToFile(measurementStation.getHeaders(), measurementStation.toCSV(), "measurementStation");
         measurementStations.put(measurementStation.getId(), measurementStation);
     }
 
@@ -67,9 +70,9 @@ public class MeasurementStationServiceImpl implements MeasurementStationService 
     }
     
     public Boolean update(final MeasurementStation measurementStation, final Long id) throws IOException {
-        CSVFileStorage.deleteFromFile(id, "measurementStation");
+        fileStorage.deleteFromFile(id, "measurementStation");
         measurementStation.setId(id);
-        CSVFileStorage.writeToFile(measurementStation.getHeaders(), measurementStation.toCSV(), "measurementStation");
+        fileStorage.writeToFile(measurementStation.getHeaders(), measurementStation.toCSV(), "measurementStation");
         if (measurementStations.containsKey(id)) {
             measurementStations.put(id, measurementStation);
             return true;
@@ -78,7 +81,7 @@ public class MeasurementStationServiceImpl implements MeasurementStationService 
     }
 
     public Boolean delete(final Long id) throws IOException {
-        CSVFileStorage.deleteFromFile(id, "measurementStation");
+        fileStorage.deleteFromFile(id, "measurementStation");
         return measurementStations.remove(id) != null;
     }
 
