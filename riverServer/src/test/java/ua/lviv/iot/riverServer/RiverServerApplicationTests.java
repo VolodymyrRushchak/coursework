@@ -2,14 +2,12 @@ package ua.lviv.iot.riverServer;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import ua.lviv.iot.riverServer.dataaccess.file.CSVFileStorage;
 import ua.lviv.iot.riverServer.logic.MeasurementService;
 import ua.lviv.iot.riverServer.logic.MeasurementStationService;
 import ua.lviv.iot.riverServer.logic.RiverService;
-import ua.lviv.iot.riverServer.logic.impl.MeasurementServiceImpl;
-import ua.lviv.iot.riverServer.logic.impl.MeasurementStationServiceImpl;
-import ua.lviv.iot.riverServer.logic.impl.RiverServiceImpl;
 import ua.lviv.iot.riverServer.model.Measurement;
 import ua.lviv.iot.riverServer.model.MeasurementStation;
 import ua.lviv.iot.riverServer.model.River;
@@ -23,10 +21,17 @@ import java.time.format.DateTimeFormatter;
 @SpringBootTest
 class RiverServerApplicationTests {
 
+    @Autowired
+    private RiverService riverService;
+    @Autowired
+    private MeasurementStationService measurementStationService;
+    @Autowired
+    private MeasurementService measurementService;
+    
     @Test
     void testWritingToCsvNoElementsCase() throws IOException {
         Path path = Path.of("test-" + LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE) + ".csv");
-        CSVFileStorage.writeToFile("", "", "test");
+        new CSVFileStorage().writeToFile("", "", "test");
         Assertions.assertTrue(Files.exists(path));
         Assertions.assertEquals("""
                                 
@@ -38,7 +43,7 @@ class RiverServerApplicationTests {
     @Test
     void testWritingToCsvOneElementCase() throws IOException {
         Path path = Path.of("test-" + LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE) + ".csv");
-        CSVFileStorage.writeToFile("firstField,secondField", "Dnipro,2201", "test");
+        new CSVFileStorage().writeToFile("firstField,secondField", "Dnipro,2201", "test");
         Assertions.assertTrue(Files.exists(path));
         Assertions.assertEquals("""
                 firstField,secondField
@@ -50,8 +55,8 @@ class RiverServerApplicationTests {
     @Test
     void testWritingToCsvRegularCase() throws IOException {
         Path path = Path.of("test-" + LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE) + ".csv");
-        CSVFileStorage.writeToFile("firstField,secondField", "Dnipro,2201", "test");
-        CSVFileStorage.writeToFile("firstField,secondField", "Dnister,1362", "test");
+        new CSVFileStorage().writeToFile("firstField,secondField", "Dnipro,2201", "test");
+        new CSVFileStorage().writeToFile("firstField,secondField", "Dnister,1362", "test");
         Assertions.assertTrue(Files.exists(path));
         Assertions.assertEquals("""
                 firstField,secondField
@@ -63,7 +68,6 @@ class RiverServerApplicationTests {
 
     @Test
     void testReadingRiverFromCSV() throws IOException {
-        RiverService riverService = new RiverServiceImpl();
         River river = new River();
         river.setName("Dnipro");
         river.setLength(2201.0);
@@ -81,7 +85,6 @@ class RiverServerApplicationTests {
 
     @Test
     void testUpdatingRiverInCSV() throws IOException {
-        RiverService riverService = new RiverServiceImpl();
         River river = new River();
         river.setName("Dnipro");
         river.setLength(2201.0);
@@ -100,7 +103,6 @@ class RiverServerApplicationTests {
 
     @Test
     void testReadingMeasurementStationFromCSV() throws IOException {
-        MeasurementStationService measurementStationService = new MeasurementStationServiceImpl();
         MeasurementStation measurementStation = new MeasurementStation();
         measurementStation.setName("Dnipro");
         measurementStation.setGpsCoordinates("-49.267136;50.123567");
@@ -116,7 +118,6 @@ class RiverServerApplicationTests {
 
     @Test
     void testUpdatingMeasurementStationInCSV() throws IOException {
-        MeasurementStationService measurementStationService = new MeasurementStationServiceImpl();
         MeasurementStation measurementStation = new MeasurementStation();
         measurementStation.setName("Dnipro");
         measurementStation.setGpsCoordinates("-49.267136;50.123567");
@@ -133,7 +134,6 @@ class RiverServerApplicationTests {
 
     @Test
     void testReadingMeasurementFromCSV() throws IOException {
-        MeasurementService measurementService = new MeasurementServiceImpl();
         Measurement measurement = new Measurement();
         measurement.setDate("2022-06-18");
         measurement.setWaterLevel(15.5);
@@ -149,7 +149,6 @@ class RiverServerApplicationTests {
 
     @Test
     void testUpdatingMeasurementInCSV() throws IOException {
-        MeasurementService measurementService = new MeasurementServiceImpl();
         Measurement measurement = new Measurement();
         measurement.setDate("2022-06-18");
         measurement.setWaterLevel(15.5);
