@@ -63,7 +63,6 @@ class RiverServerApplicationTests {
 
     @Test
     void testReadingRiverFromCSV() throws IOException {
-        RiverServiceImpl.initialize();
         RiverService riverService = new RiverServiceImpl();
         River river = new River();
         river.setName("Dnipro");
@@ -82,7 +81,6 @@ class RiverServerApplicationTests {
 
     @Test
     void testUpdatingRiverInCSV() throws IOException {
-        RiverServiceImpl.initialize();
         RiverService riverService = new RiverServiceImpl();
         River river = new River();
         river.setName("Dnipro");
@@ -102,7 +100,6 @@ class RiverServerApplicationTests {
 
     @Test
     void testReadingMeasurementStationFromCSV() throws IOException {
-        MeasurementStationServiceImpl.initialize();
         MeasurementStationService measurementStationService = new MeasurementStationServiceImpl();
         MeasurementStation measurementStation = new MeasurementStation();
         measurementStation.setName("Dnipro");
@@ -119,7 +116,6 @@ class RiverServerApplicationTests {
 
     @Test
     void testUpdatingMeasurementStationInCSV() throws IOException {
-        MeasurementStationServiceImpl.initialize();
         MeasurementStationService measurementStationService = new MeasurementStationServiceImpl();
         MeasurementStation measurementStation = new MeasurementStation();
         measurementStation.setName("Dnipro");
@@ -137,7 +133,6 @@ class RiverServerApplicationTests {
 
     @Test
     void testReadingMeasurementFromCSV() throws IOException {
-        MeasurementServiceImpl.initialize();
         MeasurementService measurementService = new MeasurementServiceImpl();
         Measurement measurement = new Measurement();
         measurement.setDate("2022-06-18");
@@ -154,7 +149,6 @@ class RiverServerApplicationTests {
 
     @Test
     void testUpdatingMeasurementInCSV() throws IOException {
-        MeasurementServiceImpl.initialize();
         MeasurementService measurementService = new MeasurementServiceImpl();
         Measurement measurement = new Measurement();
         measurement.setDate("2022-06-18");
