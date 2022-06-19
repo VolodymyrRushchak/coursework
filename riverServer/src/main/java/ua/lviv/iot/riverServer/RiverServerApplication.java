@@ -12,9 +12,6 @@ import ua.lviv.iot.riverServer.logic.impl.RiverServiceImpl;
 public class RiverServerApplication {
 
     public static void main(String[] args) {
-        RiverServiceImpl.initialize();
-        MeasurementStationServiceImpl.initialize();
-        MeasurementServiceImpl.initialize();
         SpringApplication.run(RiverServerApplication.class, args);
     }
 
