@@ -15,11 +15,10 @@ import java.util.*;
 @Service
 public class RiverServiceImpl implements RiverService {
 
-    private static Long riverIdHolder = 0L;
-    private static final HashMap<Long, River> rivers = new LinkedHashMap<>();
+    private Long riverIdHolder = 0L;
+    private final HashMap<Long, River> rivers = new LinkedHashMap<>();
 
-
-    public static void initialize() {
+    public RiverServiceImpl(){
         for (int i = 1; i <= LocalDate.now().getDayOfMonth(); ++i) {
             Path path = Path.of("river-" + LocalDate.now().format(DateTimeFormatter.ofPattern("uuuu-MM-"))
                     + String.format("%02d", i) + ".csv");
