@@ -28,7 +28,7 @@ public class RiverServiceImpl implements RiverService {
             if (Files.exists(path)) {
                 try {
                     Scanner scanner = new Scanner(path);
-                    scanner.useDelimiter("[,\\n]");
+                    scanner.useDelimiter(",|(\\r\\n)");
                     scanner.nextLine();
                     while (scanner.hasNext()) {
                         River river = new River();
