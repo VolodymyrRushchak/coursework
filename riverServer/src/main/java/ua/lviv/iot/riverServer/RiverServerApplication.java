@@ -7,7 +7,7 @@ import ua.lviv.iot.riverServer.logic.impl.MeasurementStationServiceImpl;
 import ua.lviv.iot.riverServer.logic.impl.RiverServiceImpl;
 
 @SpringBootApplication(scanBasePackages = {
-        "ua.lviv.iot.riverServer.controller", "ua.lviv.iot.riverServer.logic", "ua.lviv.iot.riverServer.logic.impl"
+        "ua.lviv.iot.riverServer.controller", "ua.lviv.iot.riverServer.logic", "ua.lviv.iot.riverServer.dataaccess.file"
 })
 public class RiverServerApplication {
 
