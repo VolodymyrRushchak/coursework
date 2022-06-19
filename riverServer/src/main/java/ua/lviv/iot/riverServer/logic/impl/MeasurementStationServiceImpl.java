@@ -15,11 +15,10 @@ import java.util.*;
 @Service
 public class MeasurementStationServiceImpl implements MeasurementStationService {
 
-    private static Long measurementStationIdHolder = 0L;
-    private static final HashMap<Long, MeasurementStation> measurementStations = new LinkedHashMap<>();
+    private Long measurementStationIdHolder = 0L;
+    private final HashMap<Long, MeasurementStation> measurementStations = new LinkedHashMap<>();
 
-
-    public static void initialize() {
+    public MeasurementStationServiceImpl(){
         for (int i = 1; i <= LocalDate.now().getDayOfMonth(); ++i) {
             Path path = Path.of("measurementStation-" + LocalDate.now().format(DateTimeFormatter.ofPattern("uuuu-MM-"))
                     + String.format("%02d", i) + ".csv");
