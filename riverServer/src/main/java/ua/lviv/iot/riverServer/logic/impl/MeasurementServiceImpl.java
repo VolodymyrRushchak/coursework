@@ -1,5 +1,6 @@
 package ua.lviv.iot.riverServer.logic.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.lviv.iot.riverServer.dataaccess.file.CSVFileStorage;
 import ua.lviv.iot.riverServer.logic.MeasurementService;
@@ -15,6 +16,8 @@ import java.util.*;
 @Service
 public class MeasurementServiceImpl implements MeasurementService {
 
+    @Autowired
+    private CSVFileStorage fileStorage;
     private Long measurementIdHolder = 0L;
     private final HashMap<Long, Measurement> measurements = new LinkedHashMap<>();
 
@@ -49,7 +52,7 @@ public class MeasurementServiceImpl implements MeasurementService {
     public void create(final Measurement measurement) throws IOException {
         long measurementId = ++measurementIdHolder;
         measurement.setId(measurementId);
-        CSVFileStorage.writeToFile(measurement.getHeaders(), measurement.toCSV(), "measurement");
+        fileStorage.writeToFile(measurement.getHeaders(), measurement.toCSV(), "measurement");
         measurements.put(measurement.getId(), measurement);
     }
 
@@ -68,9 +71,9 @@ public class MeasurementServiceImpl implements MeasurementService {
     }
 
     public Boolean update(final Measurement measurement, final Long id) throws IOException {
-        CSVFileStorage.deleteFromFile(id, "measurement");
+        fileStorage.deleteFromFile(id, "measurement");
         measurement.setId(id);
-        CSVFileStorage.writeToFile(measurement.getHeaders(), measurement.toCSV(), "measurement");
+        fileStorage.writeToFile(measurement.getHeaders(), measurement.toCSV(), "measurement");
         if (measurements.containsKey(id)) {
             measurements.put(id, measurement);
             return true;
@@ -79,7 +82,7 @@ public class MeasurementServiceImpl implements MeasurementService {
     }
 
     public Boolean delete(final Long id) throws IOException {
-        CSVFileStorage.deleteFromFile(id, "measurement");
+        fileStorage.deleteFromFile(id, "measurement");
         return measurements.remove(id) != null;
     }
 
