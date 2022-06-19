@@ -33,10 +33,7 @@ class RiverServerApplicationTests {
         Path path = Path.of("test-" + LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE) + ".csv");
         new CSVFileStorage().writeToFile("", "", "test");
         Assertions.assertTrue(Files.exists(path));
-        Assertions.assertEquals("""
-                                
-                                
-                """, Files.readString(path));
+        Assertions.assertEquals("\r\n\r\n", Files.readString(path));
         Files.delete(path);
     }
 
@@ -45,10 +42,7 @@ class RiverServerApplicationTests {
         Path path = Path.of("test-" + LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE) + ".csv");
         new CSVFileStorage().writeToFile("firstField,secondField", "Dnipro,2201", "test");
         Assertions.assertTrue(Files.exists(path));
-        Assertions.assertEquals("""
-                firstField,secondField
-                Dnipro,2201
-                """, Files.readString(path));
+        Assertions.assertEquals("firstField,secondField\r\nDnipro,2201\r\n", Files.readString(path));
         Files.delete(path);
     }
 
@@ -58,11 +52,7 @@ class RiverServerApplicationTests {
         new CSVFileStorage().writeToFile("firstField,secondField", "Dnipro,2201", "test");
         new CSVFileStorage().writeToFile("firstField,secondField", "Dnister,1362", "test");
         Assertions.assertTrue(Files.exists(path));
-        Assertions.assertEquals("""
-                firstField,secondField
-                Dnipro,2201
-                Dnister,1362
-                """, Files.readString(path));
+        Assertions.assertEquals("firstField,secondField\r\nDnipro,2201\r\nDnister,1362\r\n", Files.readString(path));
         Files.delete(path);
     }
 
