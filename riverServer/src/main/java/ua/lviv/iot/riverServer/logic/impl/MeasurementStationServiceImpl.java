@@ -25,7 +25,7 @@ public class MeasurementStationServiceImpl implements MeasurementStationService 
             if (Files.exists(path)) {
                 try {
                     Scanner scanner = new Scanner(path);
-                    scanner.useDelimiter(",|(\\r\\n)");
+                    scanner.useDelimiter("[,\\n]");
                     scanner.nextLine();
                     while (scanner.hasNext()) {
                         MeasurementStation measurementStation = new MeasurementStation();
