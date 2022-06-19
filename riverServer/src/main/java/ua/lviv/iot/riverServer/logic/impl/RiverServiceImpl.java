@@ -1,5 +1,6 @@
 package ua.lviv.iot.riverServer.logic.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.lviv.iot.riverServer.dataaccess.file.CSVFileStorage;
 import ua.lviv.iot.riverServer.logic.RiverService;
@@ -15,6 +16,8 @@ import java.util.*;
 @Service
 public class RiverServiceImpl implements RiverService {
 
+    @Autowired
+    private CSVFileStorage fileStorage;
     private Long riverIdHolder = 0L;
     private final HashMap<Long, River> rivers = new LinkedHashMap<>();
 
@@ -49,7 +52,7 @@ public class RiverServiceImpl implements RiverService {
     public void create(final River river) throws IOException {
         long riverId = ++riverIdHolder;
         river.setId(riverId);
-        CSVFileStorage.writeToFile(river.getHeaders(), river.toCSV(), "river");
+        fileStorage.writeToFile(river.getHeaders(), river.toCSV(), "river");
         rivers.put(river.getId(), river);
     }
 
@@ -62,9 +65,9 @@ public class RiverServiceImpl implements RiverService {
     }
 
     public Boolean update(final River river, final Long id) throws IOException {
-        CSVFileStorage.deleteFromFile(id, "river");
+        fileStorage.deleteFromFile(id, "river");
         river.setId(id);
-        CSVFileStorage.writeToFile(river.getHeaders(), river.toCSV(), "river");
+        fileStorage.writeToFile(river.getHeaders(), river.toCSV(), "river");
         if (rivers.containsKey(id)) {
             rivers.put(id, river);
             return true;
@@ -73,7 +76,7 @@ public class RiverServiceImpl implements RiverService {
     }
 
     public Boolean delete(final Long id) throws IOException {
-        CSVFileStorage.deleteFromFile(id, "river");
+        fileStorage.deleteFromFile(id, "river");
         return rivers.remove(id) != null;
     }
 
