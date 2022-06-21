@@ -32,7 +32,7 @@ class RiverServerApplicationTests {
 
     @Test
     void testWritingRiverToCSV() throws IOException {
-        String[] directoryElements = {"src", "test", "java", "testresources"};
+        String[] directoryElements = {"src", "test"};
         String directory = String.join(File.separator, directoryElements);
         testRiverStorage.setWorkingDirectory(directory);
         testRiverStorage.create(new River(null, "Dnipro", 2100.5, 134.7, 14688.2));
@@ -54,7 +54,7 @@ class RiverServerApplicationTests {
 
     @Test
     void testReadingRiverFromCSV() throws IOException {
-        String[] directoryElements = {"src", "test", "java", "testresources", "testRivers"};
+        String[] directoryElements = {"src", "test"};
         String directory = String.join(File.separator, directoryElements);
         String path = directory + File.separator + "river-"
                 + LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE) + ".csv";
@@ -76,7 +76,7 @@ class RiverServerApplicationTests {
 
     @Test
     void testUpdatingRiverInCSV() throws IOException {
-        String[] directoryElements = {"src", "test", "java", "testresources", "testRivers"};
+        String[] directoryElements = {"src", "test"};
         String directory = String.join(File.separator, directoryElements);
         String path = directory + File.separator + "river-"
                 + LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE) + ".csv";
@@ -105,7 +105,7 @@ class RiverServerApplicationTests {
 
     @Test
     void testDeletingRiverFromCSV() throws IOException {
-        String[] directoryElements = {"src", "test", "java", "testresources", "testRivers"};
+        String[] directoryElements = {"src", "test"};
         String directory = String.join(File.separator, directoryElements);
         String path = directory + File.separator + "river-"
                 + LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE) + ".csv";
@@ -125,7 +125,7 @@ class RiverServerApplicationTests {
 
     @Test
     void testWritingMeasurementStationToCSV() throws IOException {
-        String[] directoryElements = {"src", "test", "java", "testresources"};
+        String[] directoryElements = {"src", "test"};
         String directory = String.join(File.separator, directoryElements);
         testMeasurementStationStorage.setWorkingDirectory(directory);
         testMeasurementStationStorage.create(
@@ -147,7 +147,7 @@ class RiverServerApplicationTests {
 
     @Test
     void testReadingMeasurementStationFromCSV() throws IOException {
-        String[] directoryElements = {"src", "test", "java", "testresources", "testMeasurementStations"};
+        String[] directoryElements = {"src", "test"};
         String directory = String.join(File.separator, directoryElements);
         String path = directory + File.separator + "measurementStation-"
                 + LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE) + ".csv";
@@ -169,7 +169,7 @@ class RiverServerApplicationTests {
 
     @Test
     void testUpdatingMeasurementStationInCSV() throws IOException {
-        String[] directoryElements = {"src", "test", "java", "testresources", "testMeasurementStations"};
+        String[] directoryElements = {"src", "test"};
         String directory = String.join(File.separator, directoryElements);
         String path = directory + File.separator + "measurementStation-"
                 + LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE) + ".csv";
@@ -197,7 +197,7 @@ class RiverServerApplicationTests {
 
     @Test
     void testDeletingMeasurementStationFromCSV() throws IOException {
-        String[] directory_elements = {"src", "test", "java", "testresources", "testMeasurementStations"};
+        String[] directory_elements = {"src", "test"};
         String directory = String.join(File.separator, directory_elements);
         String path = directory + File.separator + "measurementStation-"
                 + LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE) + ".csv";
@@ -217,7 +217,7 @@ class RiverServerApplicationTests {
 
     @Test
     void testWritingMeasurementToCSV() throws IOException {
-        String[] directory_elements = {"src", "test", "java", "testresources"};
+        String[] directory_elements = {"src", "test"};
         String directory = String.join(File.separator, directory_elements);
         testMeasurementStorage.setWorkingDirectory(directory);
         testMeasurementStorage.create(
@@ -240,7 +240,7 @@ class RiverServerApplicationTests {
 
     @Test
     void testReadingMeasurementFromCSV() throws IOException {
-        String[] directory_elements = {"src", "test", "java", "testresources", "testMeasurements"};
+        String[] directory_elements = {"src", "test"};
         String directory = String.join(File.separator, directory_elements);
         String path = directory + File.separator + "measurement-"
                 + LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE) + ".csv";
@@ -263,7 +263,7 @@ class RiverServerApplicationTests {
 
     @Test
     void testUpdatingMeasurementInCSV() throws IOException {
-        String[] directory_elements = {"src", "test", "java", "testresources", "testMeasurements"};
+        String[] directory_elements = {"src", "test"};
         String directory = String.join(File.separator, directory_elements);
         String path = directory + File.separator + "measurement-"
                 + LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE) + ".csv";
@@ -292,7 +292,7 @@ class RiverServerApplicationTests {
 
     @Test
     void testDeletingMeasurementFromCSV() throws IOException {
-        String[] directory_elements = {"src", "test", "java", "testresources", "testMeasurements"};
+        String[] directory_elements = {"src", "test"};
         String directory = String.join(File.separator, directory_elements);
         String path = directory + File.separator + "measurement-"
                 + LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE) + ".csv";
