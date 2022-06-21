@@ -13,6 +13,7 @@ public class RiverServerApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(RiverServerApplication.class, args);
+        //TEST
     }
 
 }
