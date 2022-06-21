@@ -17,7 +17,7 @@ public class MeasurementStationController {
     private MeasurementStationService measurementStationService;
 
 
-    @PostMapping("/measurementStations/POST")
+    @PostMapping("/measurementStations")
     public ResponseEntity<?> create(@RequestBody final List<MeasurementStation> measurementStations) {
         try {
             for (MeasurementStation measurementStation : measurementStations) {
@@ -30,21 +30,21 @@ public class MeasurementStationController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping("/measurementStations/GET")
+    @GetMapping("/measurementStations")
     public ResponseEntity<List<MeasurementStation>> readAll() {
         List<MeasurementStation> measurementStations = measurementStationService.readAll();
         return measurementStations != null && !measurementStations.isEmpty()
                 ? new ResponseEntity<>(measurementStations, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/measurementStations/GET/{id}")
+    @GetMapping("/measurementStations/{id}")
     public ResponseEntity<MeasurementStation> read(@PathVariable("id") final Long id) {
         MeasurementStation measurementStation = measurementStationService.read(id);
         return measurementStation != null
                 ? new ResponseEntity<>(measurementStation, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/rivers/{riverId}/measurementStations/GET")
+    @GetMapping("/rivers/{riverId}/measurementStations")
     public ResponseEntity<List<MeasurementStation>> readAllRiversMeasurementStations(@PathVariable("riverId") final Long id) {
         final List<MeasurementStation> measurementStations = measurementStationService.readAllRiversMeasurementStations(id);
 
@@ -53,7 +53,7 @@ public class MeasurementStationController {
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
     
-    @PutMapping("/measurementStations/PUT/{id}")
+    @PutMapping("/measurementStations/{id}")
     public ResponseEntity<?> update(@RequestBody final MeasurementStation measurementStation, @PathVariable("id") final Long id) {
         try {
             Boolean updated = measurementStationService.update(measurementStation, id);
@@ -65,7 +65,7 @@ public class MeasurementStationController {
         }
     }
 
-    @DeleteMapping("/measurementStations/DELETE/{id}")
+    @DeleteMapping("/measurementStations/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") final Long id) {
         try {
             Boolean deleted = measurementStationService.delete(id);

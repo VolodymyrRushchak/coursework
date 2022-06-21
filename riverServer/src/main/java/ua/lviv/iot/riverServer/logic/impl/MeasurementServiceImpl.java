@@ -2,58 +2,37 @@ package ua.lviv.iot.riverServer.logic.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.lviv.iot.riverServer.dataaccess.file.CSVFileStorage;
+import ua.lviv.iot.riverServer.dataaccess.file.MeasurementStorage;
 import ua.lviv.iot.riverServer.logic.MeasurementService;
 import ua.lviv.iot.riverServer.model.Measurement;
 
+import javax.annotation.PostConstruct;
+import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class MeasurementServiceImpl implements MeasurementService {
 
     @Autowired
-    private CSVFileStorage fileStorage;
-    private Long measurementIdHolder = 0L;
-    private final HashMap<Long, Measurement> measurements = new LinkedHashMap<>();
+    private MeasurementStorage measurementStorage;
+    private HashMap<Long, Measurement> measurements;
 
-    public MeasurementServiceImpl(){
-        for (int i = 1; i <= LocalDate.now().getDayOfMonth(); ++i) {
-            Path path = Path.of("measurement-" + LocalDate.now().format(DateTimeFormatter.ofPattern("uuuu-MM-"))
-                    + String.format("%02d", i) + ".csv");
-            if (Files.exists(path)) {
-                try {
-                    Scanner scanner = new Scanner(path);
-                    scanner.useDelimiter(",|(\\r\\n)");
-                    scanner.nextLine();
-                    while (scanner.hasNext()) {
-                        Measurement measurement = new Measurement();
-                        measurement.setId(Long.valueOf(scanner.next()));
-                        if (measurement.getId() > measurementIdHolder) {
-                            measurementIdHolder = measurement.getId();
-                        }
-                        measurement.setDate(scanner.next());
-                        measurement.setWaterLevel(Double.valueOf(scanner.next()));
-                        measurement.setStationName(scanner.next());
-                        measurement.setStationId(Long.valueOf(scanner.next()));
-                        measurements.put(measurement.getId(), measurement);
-                    }
-                } catch (IOException exc) {
-                    exc.printStackTrace();
-                }
-            }
-        }
+    @PostConstruct
+    private void init() {
+        String[] directoryElements = {"csvfiles", "measurements"};
+        String directory = String.join(File.separator, directoryElements);
+        measurementStorage.setWorkingDirectory(directory);
+        measurements = measurementStorage.getCurrentMonthMeasurements();
     }
 
     public void create(final Measurement measurement) throws IOException {
-        long measurementId = ++measurementIdHolder;
-        measurement.setId(measurementId);
-        fileStorage.writeToFile(measurement.getHeaders(), measurement.toCSV(), "measurement");
-        measurements.put(measurement.getId(), measurement);
+        measurementStorage.create(measurement);
+        measurements.put(measurementStorage.getMeasurementIdHolder(), measurement);
     }
 
     public List<Measurement> readAll() {
@@ -71,10 +50,8 @@ public class MeasurementServiceImpl implements MeasurementService {
     }
 
     public Boolean update(final Measurement measurement, final Long id) throws IOException {
-        fileStorage.deleteFromFile(id, "measurement");
         measurement.setId(id);
-        fileStorage.writeToFile(measurement.getHeaders(), measurement.toCSV(), "measurement");
-        if (measurements.containsKey(id)) {
+        if (measurementStorage.update(measurement, id)) {
             measurements.put(id, measurement);
             return true;
         }
@@ -82,8 +59,7 @@ public class MeasurementServiceImpl implements MeasurementService {
     }
 
     public Boolean delete(final Long id) throws IOException {
-        fileStorage.deleteFromFile(id, "measurement");
-        return measurements.remove(id) != null;
+        return measurementStorage.delete(id);
     }
 
 }

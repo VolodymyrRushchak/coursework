@@ -2,57 +2,37 @@ package ua.lviv.iot.riverServer.logic.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.lviv.iot.riverServer.dataaccess.file.CSVFileStorage;
+import ua.lviv.iot.riverServer.dataaccess.file.MeasurementStationStorage;
 import ua.lviv.iot.riverServer.logic.MeasurementStationService;
 import ua.lviv.iot.riverServer.model.MeasurementStation;
 
+import javax.annotation.PostConstruct;
+import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class MeasurementStationServiceImpl implements MeasurementStationService {
 
     @Autowired
-    private CSVFileStorage fileStorage;
-    private Long measurementStationIdHolder = 0L;
-    private final HashMap<Long, MeasurementStation> measurementStations = new LinkedHashMap<>();
+    private MeasurementStationStorage measurementStationStorage;
+    private HashMap<Long, MeasurementStation> measurementStations;
 
-    public MeasurementStationServiceImpl(){
-        for (int i = 1; i <= LocalDate.now().getDayOfMonth(); ++i) {
-            Path path = Path.of("measurementStation-" + LocalDate.now().format(DateTimeFormatter.ofPattern("uuuu-MM-"))
-                    + String.format("%02d", i) + ".csv");
-            if (Files.exists(path)) {
-                try {
-                    Scanner scanner = new Scanner(path);
-                    scanner.useDelimiter(",|(\\r\\n)");
-                    scanner.nextLine();
-                    while (scanner.hasNext()) {
-                        MeasurementStation measurementStation = new MeasurementStation();
-                        measurementStation.setId(Long.valueOf(scanner.next()));
-                        if (measurementStation.getId() > measurementStationIdHolder) {
-                            measurementStationIdHolder = measurementStation.getId();
-                        }
-                        measurementStation.setName(scanner.next());
-                        measurementStation.setGpsCoordinates(scanner.next());
-                        measurementStation.setRiverId(Long.valueOf(scanner.next()));
-                        measurementStations.put(measurementStation.getId(), measurementStation);
-                    }
-                } catch (IOException exc) {
-                    exc.printStackTrace();
-                }
-            }
-        }
+    @PostConstruct
+    private void init() {
+        String[] directoryElements = {"csvfiles", "measurementStations"};
+        String directory = String.join(File.separator, directoryElements);
+        measurementStationStorage.setWorkingDirectory(directory);
+        measurementStations = measurementStationStorage.getCurrentMonthMeasurementStations();
     }
 
     public void create(final MeasurementStation measurementStation) throws IOException {
-        long measurementStationId = ++measurementStationIdHolder;
-        measurementStation.setId(measurementStationId);
-        fileStorage.writeToFile(measurementStation.getHeaders(), measurementStation.toCSV(), "measurementStation");
-        measurementStations.put(measurementStation.getId(), measurementStation);
+        measurementStationStorage.create(measurementStation);
+        measurementStations.put(measurementStationStorage.getMeasurementStationIdHolder(), measurementStation);
     }
 
     public List<MeasurementStation> readAll() {
@@ -70,10 +50,8 @@ public class MeasurementStationServiceImpl implements MeasurementStationService 
     }
     
     public Boolean update(final MeasurementStation measurementStation, final Long id) throws IOException {
-        fileStorage.deleteFromFile(id, "measurementStation");
         measurementStation.setId(id);
-        fileStorage.writeToFile(measurementStation.getHeaders(), measurementStation.toCSV(), "measurementStation");
-        if (measurementStations.containsKey(id)) {
+        if (measurementStationStorage.update(measurementStation, id)) {
             measurementStations.put(id, measurementStation);
             return true;
         }
@@ -81,8 +59,7 @@ public class MeasurementStationServiceImpl implements MeasurementStationService 
     }
 
     public Boolean delete(final Long id) throws IOException {
-        fileStorage.deleteFromFile(id, "measurementStation");
-        return measurementStations.remove(id) != null;
+        return measurementStationStorage.delete(id);
     }
 
 }

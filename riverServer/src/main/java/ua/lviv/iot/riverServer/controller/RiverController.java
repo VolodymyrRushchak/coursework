@@ -16,7 +16,7 @@ public class RiverController {
     private RiverService riverService;
 
 
-    @PostMapping("/rivers/POST")
+    @PostMapping("/rivers")
     public ResponseEntity<?> create(@RequestBody final List<River> rivers) {
         try {
             for (River river : rivers) {
@@ -29,21 +29,21 @@ public class RiverController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping("/rivers/GET")
+    @GetMapping("/rivers")
     public ResponseEntity<List<River>> readAll() {
         List<River> rivers = riverService.readAll();
         return rivers != null && !rivers.isEmpty()
                 ? new ResponseEntity<>(rivers, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/rivers/GET/{id}")
+    @GetMapping("/rivers/{id}")
     public ResponseEntity<River> read(@PathVariable("id") final Long id) {
         River river = riverService.read(id);
         return river != null
                 ? new ResponseEntity<>(river, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PutMapping("/rivers/PUT/{id}")
+    @PutMapping("/rivers/{id}")
     public ResponseEntity<?> update(@RequestBody final River river, @PathVariable("id") final Long id) {
         try {
             Boolean updated = riverService.update(river, id);
@@ -55,7 +55,7 @@ public class RiverController {
         }
     }
 
-    @DeleteMapping("/rivers/DELETE/{id}")
+    @DeleteMapping("/rivers/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") final Long id) {
         try {
             Boolean deleted = riverService.delete(id);
