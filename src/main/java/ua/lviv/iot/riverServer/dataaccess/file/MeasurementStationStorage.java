@@ -48,12 +48,12 @@ public class MeasurementStationStorage extends EntityStorage {
     }
 
     @Override
-    public String getType() {
+    protected String getType() {
         return "measurementStation";
     }
 
     @Override
-    public void addToHash(final String record) {
+    protected void addToHash(final String record) {
         MeasurementStation measurementStation = new MeasurementStation(record);
         if (measurementStation.getId() > idHolder) {
             idHolder = measurementStation.getId();

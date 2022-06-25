@@ -49,9 +49,9 @@ public abstract class EntityStorage {
         workingDirectory = dir;
     }
 
-    public abstract String getType();
+    protected abstract String getType();
 
-    public abstract void addToHash(String record);
+    protected abstract void addToHash(String record);
 
     private void iterateOverCurrentMonth() {
         for (int i = 1; i <= LocalDate.now().getDayOfMonth(); ++i) {

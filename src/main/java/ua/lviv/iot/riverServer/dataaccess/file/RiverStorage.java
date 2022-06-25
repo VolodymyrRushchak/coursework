@@ -40,12 +40,12 @@ public class RiverStorage extends EntityStorage {
     }
 
     @Override
-    public String getType() {
+    protected String getType() {
         return "river";
     }
 
     @Override
-    public void addToHash(final String record) {
+    protected void addToHash(final String record) {
         River river = new River(record);
         if (river.getId() > idHolder) {
             idHolder = river.getId();
