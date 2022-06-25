@@ -1,3 +1,4 @@
+# riverServer
 Для того, щоб запустити програму, потрібно у консолі перейти в кореневу директорію проекту та виконати команду "mvn org.springframework.boot:spring-boot-maven-plugin:run".
 
 Щоб надсилати запити та користуватися CRUD операціями, найзручніше використовувати застосунок Postman. Всі запити потрібно надсилати на адресу http://localhost:8080
@@ -6,32 +7,32 @@
 Доступні команди:
 
 Отримати всі сутності заданого типу(GET):
-/rivers/GET
-/measurementStations/GET
-/measurements/GET
+/rivers
+/measurementStations
+/measurements
 
 Отримати сутність заданого типу за id(GET/{id}):
-/rivers/GET/{id}
-/measurementStations/GET/{id}
-/measurements/GET/{id}
+/rivers/{id}
+/measurementStations/{id}
+/measurements/{id}
 
 Отримати всі станції заміру для заданої річки за id(/GET):
-/rivers/{riverId}/measurementStations/GET
+/rivers/{riverId}/measurementStations
 
 Отримати всі заміри для заданої станції за id(/GET):
-/measurementStations/{stationId}/measurements/GET
+/measurementStations/{stationId}/measurement
 
 Створити сутність заданого типу(POST):
-/rivers/POST
-/measurementStations/POST
-/measurements/POST
+/rivers
+/measurementStations
+/measurements
 
 Обновити сутність заданого типу за id(PUT/{id}):
-/rivers/PUT/{id}
-/measurementStations/PUT/{id}
-/measurements/PUT/{id}
+/rivers/{id}
+/measurementStations/{id}
+/measurements/{id}
 
 Видалити сутність заданого типу за id(DELETE/{id}):
-/rivers/DELETE/{id}
-/measurementStations/DELETE/{id}
-/measurements/DELETE/{id}
+/rivers/{id}
+/measurementStations/{id}
+/measurements/{id}
