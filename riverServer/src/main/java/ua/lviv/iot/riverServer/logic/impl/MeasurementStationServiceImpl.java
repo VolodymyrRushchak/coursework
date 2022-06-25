@@ -2,60 +2,54 @@ package ua.lviv.iot.riverServer.logic.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.lviv.iot.riverServer.dataaccess.file.EntityStorage;
 import ua.lviv.iot.riverServer.dataaccess.file.MeasurementStationStorage;
 import ua.lviv.iot.riverServer.logic.MeasurementStationService;
 import ua.lviv.iot.riverServer.model.MeasurementStation;
 
 import javax.annotation.PostConstruct;
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
-public class MeasurementStationServiceImpl implements MeasurementStationService {
+public class MeasurementStationServiceImpl extends EntityService implements MeasurementStationService {
 
     @Autowired
     private MeasurementStationStorage measurementStationStorage;
-    private HashMap<Long, MeasurementStation> measurementStations;
 
     @PostConstruct
-    private void init() {
-        String[] directoryElements = {"csvfiles", "measurementStations"};
-        String directory = String.join(File.separator, directoryElements);
-        measurementStationStorage.setWorkingDirectory(directory);
-        measurementStations = measurementStationStorage.getCurrentMonthMeasurementStations();
+    protected void init() {
+        super.init();
+    }
+
+    @Override
+    protected String[] getDirs() {
+        return new String[]{"csvfiles", "measurementStations"};
+    }
+
+    @Override
+    protected EntityStorage getStorage() {
+        return measurementStationStorage;
     }
 
     public void create(final MeasurementStation measurementStation) throws IOException {
         measurementStationStorage.create(measurementStation);
-        measurementStations.put(measurementStationStorage.getMeasurementStationIdHolder(), measurementStation);
     }
 
     public List<MeasurementStation> readAll() {
-        return new ArrayList<>(measurementStations.values());
+        return measurementStationStorage.readAll();
     }
 
     public MeasurementStation read(final Long id) {
-        return measurementStations.get(id);
+        return measurementStationStorage.read(id);
     }
 
     public List<MeasurementStation> readAllRiversMeasurementStations(final Long id) {
-        return measurementStations.values().stream()
-                .filter(measurementStation ->
-                        Objects.equals(measurementStation.getRiverId(), id)).collect(Collectors.toList());
+        return measurementStationStorage.readAllRiversMeasurementStations(id);
     }
-    
+
     public Boolean update(final MeasurementStation measurementStation, final Long id) throws IOException {
-        measurementStation.setId(id);
-        if (measurementStationStorage.update(measurementStation, id)) {
-            measurementStations.put(id, measurementStation);
-            return true;
-        }
-        return false;
+        return measurementStationStorage.update(measurementStation, id);
     }
 
     public Boolean delete(final Long id) throws IOException {

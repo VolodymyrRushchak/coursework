@@ -17,7 +17,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 
 @SpringBootTest
 class RiverServerApplicationTests {
@@ -65,12 +64,13 @@ class RiverServerApplicationTests {
                     """);
         }
         testRiverStorage.setWorkingDirectory(directory);
-        HashMap<Long, River> rivers = testRiverStorage.getCurrentMonthRivers();
-        Assertions.assertEquals(1, rivers.get(1L).getId());
-        Assertions.assertEquals("Dnipro", rivers.get(1L).getName());
-        Assertions.assertEquals(2100.5, rivers.get(1L).getLength());
-        Assertions.assertEquals(134.7, rivers.get(1L).getFlowRate());
-        Assertions.assertEquals(14688.2, rivers.get(1L).getBasinArea());
+        testRiverStorage.initHashMap();
+        River river = testRiverStorage.read(1L);
+        Assertions.assertEquals(1, river.getId());
+        Assertions.assertEquals("Dnipro", river.getName());
+        Assertions.assertEquals(2100.5, river.getLength());
+        Assertions.assertEquals(134.7, river.getFlowRate());
+        Assertions.assertEquals(14688.2, river.getBasinArea());
         Files.delete(Path.of(path));
     }
 
@@ -158,12 +158,12 @@ class RiverServerApplicationTests {
                     """);
         }
         testMeasurementStationStorage.setWorkingDirectory(directory);
-        HashMap<Long, MeasurementStation> measurementStations =
-                testMeasurementStationStorage.getCurrentMonthMeasurementStations();
-        Assertions.assertEquals(1, measurementStations.get(1L).getId());
-        Assertions.assertEquals("Kyiv", measurementStations.get(1L).getName());
-        Assertions.assertEquals("-49.267136;50.123567", measurementStations.get(1L).getGpsCoordinates());
-        Assertions.assertEquals(1, measurementStations.get(1L).getRiverId());
+        testMeasurementStationStorage.initHashMap();
+        MeasurementStation measurementStation = testMeasurementStationStorage.read(1L);
+        Assertions.assertEquals(1, measurementStation.getId());
+        Assertions.assertEquals("Kyiv", measurementStation.getName());
+        Assertions.assertEquals("-49.267136;50.123567", measurementStation.getGpsCoordinates());
+        Assertions.assertEquals(1, measurementStation.getRiverId());
         Files.delete(Path.of(path));
     }
 
@@ -251,13 +251,13 @@ class RiverServerApplicationTests {
                     """);
         }
         testMeasurementStorage.setWorkingDirectory(directory);
-        HashMap<Long, Measurement> measurements =
-                testMeasurementStorage.getCurrentMonthMeasurements();
-        Assertions.assertEquals(1, measurements.get(1L).getId());
-        Assertions.assertEquals("2022-06-15", measurements.get(1L).getDate());
-        Assertions.assertEquals(15.7, measurements.get(1L).getWaterLevel());
-        Assertions.assertEquals("Kyiv", measurements.get(1L).getStationName());
-        Assertions.assertEquals(1, measurements.get(1L).getStationId());
+        testMeasurementStorage.initHashMap();
+        Measurement measurement = testMeasurementStorage.read(1L);
+        Assertions.assertEquals(1, measurement.getId());
+        Assertions.assertEquals("2022-06-15", measurement.getDate());
+        Assertions.assertEquals(15.7, measurement.getWaterLevel());
+        Assertions.assertEquals("Kyiv", measurement.getStationName());
+        Assertions.assertEquals(1, measurement.getStationId());
         Files.delete(Path.of(path));
     }
 
