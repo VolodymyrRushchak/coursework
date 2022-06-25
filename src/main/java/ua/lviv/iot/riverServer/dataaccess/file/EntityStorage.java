@@ -28,7 +28,7 @@ public abstract class EntityStorage {
         iterateOverCurrentMonth();
     }
 
-    public void iterateOverCurrentMonth() {
+    private void iterateOverCurrentMonth() {
         for (int i = 1; i <= LocalDate.now().getDayOfMonth(); ++i) {
             String path = filePath(i);
             File file = new File(path);
