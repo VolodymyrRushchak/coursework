@@ -14,7 +14,7 @@ public interface MeasurementService {
 
     Measurement read(Long id);
 
-    List<Measurement> readAllStationsMeasurements(final Long id);
+    List<Measurement> readAllStationsMeasurements(Long id);
     
     Boolean update(Measurement measurement, Long id) throws IOException;
 

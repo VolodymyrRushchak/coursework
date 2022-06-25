@@ -13,7 +13,7 @@ public interface MeasurementStationService {
 
     MeasurementStation read(Long id);
     
-    List<MeasurementStation> readAllRiversMeasurementStations(final Long id);
+    List<MeasurementStation> readAllRiversMeasurementStations(Long id);
 
     Boolean update(MeasurementStation measurementStation, Long id) throws IOException;
 
