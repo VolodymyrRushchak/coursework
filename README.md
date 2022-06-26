@@ -1,4 +1,6 @@
 # riverServer
+POSTMAN КОЛЕКЦІЯ: https://www.getpostman.com/collections/42c2aed9129ec4d0666e
+
 Для того, щоб запустити програму, потрібно у консолі перейти в кореневу директорію проекту та виконати команду "mvn org.springframework.boot:spring-boot-maven-plugin:run".
 
 Щоб надсилати запити та користуватися CRUD операціями, найзручніше використовувати застосунок Postman. Всі запити потрібно надсилати на адресу http://localhost:8080
